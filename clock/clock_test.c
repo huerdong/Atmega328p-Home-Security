@@ -12,5 +12,4 @@ int main() {
 
 	i2c_init(BDIV);
 	sci_init(MYUBRR);
-	sci_outs("\r\
 }
