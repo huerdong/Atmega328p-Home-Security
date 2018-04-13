@@ -22,6 +22,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#define NULL 0
 
 void i2c_init(uint8_t);
 uint8_t i2c_io(uint8_t, uint8_t *, uint16_t,
