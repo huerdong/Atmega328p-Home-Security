@@ -27,12 +27,8 @@ void i2c_init(uint8_t);
 uint8_t i2c_io(uint8_t, uint8_t *, uint16_t,
                uint8_t *, uint16_t, uint8_t *, uint16_t);
 
-void sci_init(uint8_t);
-void sci_out(char);
-void sci_outs(char *);
-
-uint8_t rdprom(uint8_t *, uint16_t, uint16_t);
-uint8_t wrprom(uint8_t *, uint16_t, uint16_t);
+void write_byte(uint8_t slave_add, uint8_t reg_add, uint8_t value);
+void write_array(uint8_t slave_add, uint8_t *reg_array, uint8_t *input_array, uint8_t size);
 
 // Find divisors for the UART0 and I2C baud rates
 #define FOSC 9830400            // Clock frequency = Oscillator freq.

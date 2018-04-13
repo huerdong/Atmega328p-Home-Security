@@ -1,51 +1,6 @@
 #include "i2c.h"
 
 /*
-  wrprom - write bytes to the EEPROM over the I2C bus
-*/
-uint8_t wrprom(uint8_t *p, uint16_t n, uint16_t a)
-{
-    uint16_t maxw;              // Maximum bytes to write in the page
-    uint8_t status;
-    uint8_t adata[2];           // Array to hold the address
-
-    while (n > 0) {
-        adata[0] = a >> 8;      // Put EEPROM address in adata buffer,
-        adata[1] = a & 0xff;    // MSB first, LSB second
-        // We can write up to the next 64 byte boundary,
-        // but no more than is left to write
-        maxw = 64 - (a % 64);   // Max for this page
-        if (n < maxw)
-            maxw = n;           // Number left to write in page
-        status = i2c_io(EEPROM_ADDR, adata, 2, p, maxw, NULL, 0);
-        if (status != 0)
-            return(status);
-        _delay_ms(5);           // Wait 5ms for EEPROM to write
-        p += maxw;              // Increment array address
-        a += maxw;              // Increment address
-        n -= maxw;              // Decrement byte count
-    }
-    return(0);
-}
-
-/*
-  rdprom - read bytes from the EEPROM over the I2C bus
-*/
-uint8_t rdprom(uint8_t *p, uint16_t n, uint16_t a)
-{
-    uint8_t status;
-    uint8_t adata[2];           // Array to hold the address
-
-    adata[0] = a >> 8;          // Put EEPROM address in adata buffer,
-    adata[1] = a & 0xff;        // MSB first, LSB second
-
-    status = i2c_io(EEPROM_ADDR, adata, 2, NULL, 0, p, n);
-    return(status);
-}
-
-/* ----------------------------------------------------------------------- */
-
-/*
   i2c_io - write and read bytes to a slave I2C device
 
   This funtions write "an" bytes from array "ap" and then "wn" bytes from array
@@ -229,33 +184,12 @@ void i2c_init(uint8_t bdiv)
 
 /* ----------------------------------------------------------------------- */
 
-/*
-  sci_init - Initialize the SCI port
-*/
-void sci_init(uint8_t ubrr) {
-    UBRR0 = ubrr;            // Set baud rate
-    UCSR0B |= (1 << TXEN0);  // Turn on transmitter
-    UCSR0C = (3 << UCSZ00);  // Set for asynchronous operation, no parity, 
-                             // one stop bit, 8 data bits
+void write_byte(uint8_t slave_add, uint8_t reg_add, uint8_t value){
+		uint8_t reg_add_dummy[2] = {reg_add, value};
+		i2c_io(slave_add, reg_add_dummy, 2, NULL, 0, NULL, 0);
 }
 
-/*
-  sci_out - Output a byte to SCI port
-*/
-void sci_out(char ch)
-{
-    while ((UCSR0A & (1<<UDRE0)) == 0);
-    UDR0 = ch;
-}
-
-/*
-  sci_outs - Print the contents of the character string "s" out the SCI
-  port. The string must be terminated by a zero byte.
-*/
-void sci_outs(char *s)
-{
-    char ch;
-
-    while ((ch = *s++) != (char) '\0')
-        sci_out(ch);
-}
+void write_array(uint8_t slave_add, uint8_t *reg_array, uint8_t *input_array, uint8_t size){
+	uint8_t i = 0;
+	for(i;i < size; i++;)
+		write_byte(slave_add, reg_array[i], input_array[i]);
