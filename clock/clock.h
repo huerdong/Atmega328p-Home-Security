@@ -23,6 +23,6 @@ unsigned bcd2bin (unsigned char n);
 
 unsigned char bin2bcd(unsigned int n);
 
-unsigned int clock_read(unsigned val_addr);
+void clock_read(struct clock_time* time);
 
-void clock_write(unsigned val_addr, int val);
+void clock_write(struct clock_time* time);

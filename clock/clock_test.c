@@ -18,16 +18,12 @@ int main() {
 	init_time.sec = 39;
 	
 	// Write data to clock
-	clock_write(0x02, init_time.sec);
-	clock_write(0x03, init_time.min);
-	clock_write(0x04, init_time.hour);				
+	clock_write(&init_time);
 	
-	// Delay 10s before reading data in clock
-	_delay_ms(10000);
+	// Delay 2s before reading data in clock
+	_delay_ms(2000);
 	struct clock_time now;
-	now.sec = clock_read(0x02);
-	now.min = clock_read(0x03);
-	now.hour = clock_read(0x04);
+	clock_read(&now);
 	unsigned char* buffer = print(&now);		
 	lcd_stringout_P(buffer);	
 

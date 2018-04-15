@@ -24,15 +24,25 @@ unsigned char bin2bcd (unsigned int n) {
 	return (((n / 10) << 4) | (n % 10));
 }
 
-unsigned int clock_read(unsigned val_addr) {
+
+void clock_read(struct clock_time* t) {	
+	int sec = t->sec;
+	int min = t->min;
+	int hour = t->hour;
+
 	memset(rd_buf, 0, 20);
-	uint8_t abuf = {val_addr};
-	i2c_io(SLAVE_ADDR, abuf, 1, NULL, 0, rd_buf, 20);
-	return bcd2bin(rd_buf[0]); 
+	uint8_t abuf[3] = {0x02, 0x03, 0x04};
+	i2c_io(SLAVE_ADDR, abuf, 1, NULL, 0, rd_buf, 3);
+	
+	t->sec = bcd2bin(rd_buf[0] & 0x7F);
+	t->min = bcd2bin(rd_buf[1] & 0x7F);
+	t->hour = bcd2bin(rd_buf[2] & 0x3F);
 }
 
-void clock_write(unsigned val_addr, int val) {
-	write_byte(SLAVE_ADDR, val_addr, bin2bcd(val));	
+void clock_write(struct clock_time* t) {
+	uint8_t abuf[3] = {0x02, 0x03, 0x04};
+	uint8_t val[3] = {bin2bcd(t->sec), bin2bcd(t->min), bin2bcd(t->hour)};
+	i2c_io(SLAVE_ADDR, abuf, 3, val, 3, NULL, 0); 
 }
 
 
