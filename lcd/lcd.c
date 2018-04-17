@@ -1,21 +1,6 @@
 #include "lcd.h"
 
 /*
-  lcd_stringout_P - Print the contents of the character string "s" starting at LCD
-  RAM location "x" where the string is stored in ROM.  The string must be
-  terminated by a zero byte.
-*/
-void lcd_stringout_P(char *s)
-{
-    unsigned char ch;
-
-    /* Use the "pgm_read_byte()" routine to read the date from ROM */
-    while ((ch = pgm_read_byte(s++)) != '\0') {
-        lcd_writedata(ch);             // Output the next character
-    }
-}
-
-/*
   lcd_init - Do various things to force a initialization of the LCD
   display by instructions, and then set up the display parameters and
   turn the display on.
@@ -79,6 +64,10 @@ void lcd_stringout(char *str)
     char ch;
     while ((ch = *str++) != '\0')
 	lcd_writedata(ch);
+}
+
+void lcd_clear() {
+    lcd_writecommand(LCD_CLEAR);
 }
 
 /*

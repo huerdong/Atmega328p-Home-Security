@@ -43,7 +43,7 @@
 //#define SEND_DEMO				/* Define SEND demo */
 
 /* Define Required fields shown below */
-#define DOMAIN				"ip-api.com/line" /* Request locaiton data */
+#define DOMAIN				"http://default-environment.2vmm2yjjkk.us-west-2.elasticbeanstalk.com" /* Request locaiton data */
 #define PORT				"80"
 
 #define SSID				"USC Guest Wireless"

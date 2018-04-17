@@ -9,11 +9,12 @@
 
 int main(void)
 {
+	DDRC |= (1 << PC1);
+	PORTC |= (1 << PC1);
+	
+	int flag = 0;
 	char _buffer[150];
 	uint8_t Connect_Status;
-	#ifdef SEND_DEMO
-	uint8_t Sample = 0;
-	#endif
 
 	USART_Init(MYUBRR);						/* Initiate USART with 115200 baud rate */
 	sei();									/* Start global interrupt */
@@ -27,25 +28,15 @@ int main(void)
 	ESP8266_Start(0, DOMAIN, PORT);
 	while(1)
 	{
-		Connect_Status = ESP8266_connected();
-		if(Connect_Status == ESP8266_NOT_CONNECTED_TO_AP)
-		ESP8266_JoinAccessPoint(SSID, PASSWORD);
-		if(Connect_Status == ESP8266_TRANSMISSION_DISCONNECTED)
-		ESP8266_Start(0, DOMAIN, PORT);
-/*
-		#ifdef SEND_DEMO
 		memset(_buffer, 0, 150);
-		sprintf(_buffer, "GET /update?api_key=%s&field1=%d", API_WRITE_KEY, Sample++);
-		ESP8266_Send(_buffer);
-		_delay_ms(15000);		
-		#endif
-		
-		#ifdef RECEIVE_DEMO
-		memset(_buffer, 0, 150);
-		sprintf(_buffer, "GET /channels/%s/feeds/last.txt", CHANNEL_ID);
+		sprintf(_buffer, "GET /hello");
 		ESP8266_Send(_buffer);
 		Read_Data(_buffer);
-		_delay_ms(600);
-		#endif */
+		flag = strcmp(_buffer, "hello\n");
+		if (flag == 0) {
+			PORTC |= (1 << PC1); 
+		}	
+		_delay_ms(5000);
+		PORTC |= (1 << PC1);
 	}
 }
