@@ -75,7 +75,6 @@ void Start_Read_Response(char* _ExpectedResponse)
 	do {
 		Read_Response(_ExpectedResponse);
 	} while(Response_Status == ESP8266_RESPONSE_WAITING);
-
 }
 
 void GetResponseBody(char* Response, uint16_t ResponseLength)

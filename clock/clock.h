@@ -11,12 +11,11 @@ struct clock_time {
 };
 
 uint8_t rd_buf[20];
-uint8_t print_buf[20];
 
 
 char before (struct clock_time* a, struct clock_time* b);
 
-unsigned char* print(struct clock_time* time);
+int print(struct clock_time* time, char* buffer, int n);
 
 // Code stolen from https://github.com/apc-io/apc-8750/blob/master/u-boot/rtc/pcf8563.c
 unsigned bcd2bin (unsigned char n);

@@ -7,6 +7,8 @@
 #include "clock.h"
 
 int main() {
+	DDRC |= (1 << PC0);
+
 	lcd_init();
 	lcd_moveto(0, 0);
 
@@ -24,8 +26,14 @@ int main() {
 	_delay_ms(2000);
 	struct clock_time now;
 	clock_read(&now);
-	unsigned char* buffer = print(&now);		
-	lcd_stringout_P(buffer);	
+	char buffer[20];
+	int flag = print(&now, buffer, 20);		
+	lcd_stringout(buffer);	
+
+	if (flag == 6) {
+		// Light LED if nothing is read
+		PORTC |= (1 << PC0);
+	}
 
 	while (1) {                 // Loop forever
 	}

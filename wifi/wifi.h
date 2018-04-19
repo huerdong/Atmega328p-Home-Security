@@ -8,7 +8,7 @@
 #define WIFI_H
 
 #define FOSC 7372800UL				/* Define CPU clock Frequency */
-#define BAUD 115200				/* Define desired baud rate */ 
+#define BAUD 9600				/* Define desired baud rate */ 
 #define MYUBRR FOSC/8/BAUD - 1			/* UBRR */
 
 #include <avr/io.h>				/* Include AVR std. library file */
@@ -43,7 +43,7 @@
 //#define SEND_DEMO				/* Define SEND demo */
 
 /* Define Required fields shown below */
-#define DOMAIN				"http://default-environment.2vmm2yjjkk.us-west-2.elasticbeanstalk.com" /* Request locaiton data */
+#define DOMAIN				"http://ip-api.com" /* Request locaiton data */
 #define PORT				"80"
 
 #define SSID				"USC Guest Wireless"

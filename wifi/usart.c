@@ -16,8 +16,7 @@ void USART_Init(unsigned int ubrr)				/* USART initialize function */
 	UCSR0A |=(1 << U2X0); 					/* Double speed */
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);	/* Enable USART transmitter and receiver, receiver interrupt enabled */
 	UCSR0C |= (1 << UMSEL00)| (1 << UCSZ00) | (1 << UCSZ01);	/* Asynchronous mode for 8 bit data and 1 stop bit */ 
-	UBRR0L = ubrr;						/* Load lower 8 bit of prescale value */
-	UBRR0H = (ubrr >> 8);					/* Load with upper 8 bit of prescale value */
+	UBRR0 = ubrr;						/* Load 8 bit of prescale value */
 }
 
 char USART_RxChar()							/* Data receiving function */

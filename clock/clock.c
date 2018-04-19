@@ -10,10 +10,9 @@ char before (struct clock_time* a, struct clock_time* b) {
 	return a->sec < b->sec;
 }
 
-unsigned char* print(struct clock_time* time) {
-	memset(print_buf, 0, 20);	
-	int n = sprintf(print_buf, "%d:%d%d", time->hour, time->min, time->sec);
-	return print_buf;
+int print(struct clock_time* time, char* buffer, int n) {
+	memset(buffer, 0, n);	
+	return sprintf(buffer, "%d:%d:%d", time->hour, time->min, time->sec);
 }
 
 unsigned bcd2bin (unsigned char n) {
