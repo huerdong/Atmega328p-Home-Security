@@ -1,5 +1,11 @@
 #include "clock.h"
 
+void clock_start() {
+	uint8_t abuf[1] = {0x00};
+	uint8_t val[1] = {0x00};
+	i2c_io(SLAVE_ADDR, abuf, 1, val, 1, NULL, 0); 
+}
+
 char before (struct clock_time* a, struct clock_time* b) {
 	if (a->hour != b->hour) {
 		return a->hour < b->hour;
@@ -11,7 +17,6 @@ char before (struct clock_time* a, struct clock_time* b) {
 }
 
 int print(struct clock_time* time, char* buffer, int n) {
-	memset(buffer, 0, n);	
 	return sprintf(buffer, "%d:%d:%d", time->hour, time->min, time->sec);
 }
 
@@ -25,13 +30,9 @@ unsigned char bin2bcd (unsigned int n) {
 
 
 void clock_read(struct clock_time* t) {	
-	int sec = t->sec;
-	int min = t->min;
-	int hour = t->hour;
-
 	memset(rd_buf, 0, 20);
-	uint8_t abuf[3] = {0x02, 0x03, 0x04};
-	i2c_io(SLAVE_ADDR, abuf, 1, NULL, 0, rd_buf, 3);
+	uint8_t abuf = 0x02;
+	i2c_io(SLAVE_ADDR, &abuf, 1, NULL, 0, rd_buf, 3);
 	
 	t->sec = bcd2bin(rd_buf[0] & 0x7F);
 	t->min = bcd2bin(rd_buf[1] & 0x7F);
@@ -39,9 +40,9 @@ void clock_read(struct clock_time* t) {
 }
 
 void clock_write(struct clock_time* t) {
-	uint8_t abuf[3] = {0x02, 0x03, 0x04};
+	uint8_t abuf = 0x02;
 	uint8_t val[3] = {bin2bcd(t->sec), bin2bcd(t->min), bin2bcd(t->hour)};
-	i2c_io(SLAVE_ADDR, abuf, 3, val, 3, NULL, 0); 
+	i2c_io(SLAVE_ADDR, &abuf, 1, val, 3, NULL, 0); 
 }
 
 

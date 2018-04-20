@@ -5,13 +5,14 @@
 #define SLAVE_ADDR 0xA2
 
 struct clock_time {
-	unsigned int sec;
-	unsigned int min;
-	unsigned int hour;
+	unsigned char sec;
+	unsigned char min;
+	unsigned char hour;
 };
 
 uint8_t rd_buf[20];
 
+void clock_start();
 
 char before (struct clock_time* a, struct clock_time* b);
 
