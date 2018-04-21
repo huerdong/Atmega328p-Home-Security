@@ -6,8 +6,8 @@
 void init_io() {
 	// Input enables
 	DDRD &= ~((1 << PD2) | (1 << PD3) | (1 << PD4) | (1 << PD5) | (1 << PD6));
- 	DDRB &= ~(1 << PB5);
-	DDRC &= ~((1 << PC2) | (1 << PC3));
+ 	DDRB |= (1 << PB5);
+	DDRC |= ((1 << PC2) | (1 << PC3));
 
 	// I/O Interrupts
 	PCMSK0 |= 0b01111110;
