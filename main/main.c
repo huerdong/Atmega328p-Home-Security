@@ -142,5 +142,7 @@ ISR(PCINT2_vect) {
 ISR(TIMER1_COMPA_vect) {
 	cli();
 
+
+
 	sei();
 }

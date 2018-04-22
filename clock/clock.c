@@ -17,7 +17,7 @@ char before (struct clock_time* a, struct clock_time* b) {
 }
 
 int print(struct clock_time* time, char* buffer, int n) {
-	return sprintf(buffer, "%d:%d:%d", time->hour, time->min, time->sec);
+	return sprintf(buffer, "%02d:%02d:%02d", time->hour, time->min, time->sec);
 }
 
 unsigned bcd2bin (unsigned char n) {
