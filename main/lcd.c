@@ -1,5 +1,9 @@
 #include "lcd.h"
 
+void lcd_clear(void) {
+    lcd_writecommand(LCD_CLEAR);
+}
+
 /*
   lcd_stringout_P - Print the contents of the character string "s" starting at LCD
   RAM location "x" where the string is stored in ROM.  The string must be

@@ -1,11 +1,5 @@
 #include "clock.h"
 
-void clock_start() {
-	uint8_t abuf[1] = {0x00};
-	uint8_t val[1] = {0x00};
-	i2c_io(SLAVE_ADDR, abuf, 1, val, 1, NULL, 0); 
-}
-
 char before (struct clock_time* a, struct clock_time* b) {
 	if (a->hour != b->hour) {
 		return a->hour < b->hour;

@@ -12,8 +12,6 @@ struct clock_time {
 
 uint8_t rd_buf[20];
 
-void clock_start();
-
 char before (struct clock_time* a, struct clock_time* b);
 
 int print(struct clock_time* time, char* buffer, int n);

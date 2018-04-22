@@ -37,6 +37,7 @@
 #define LCD_DISPLAYOFF		0x80	// Display off
 #define LCD_ENTRYMODE		0x06	// Entrymode
 
+void lcd_clear(void);
 void lcd_init(void);
 void lcd_moveto(unsigned char, unsigned char);
 void lcd_stringout(char *);
